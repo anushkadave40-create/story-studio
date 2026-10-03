@@ -7,9 +7,23 @@ export * from "./types";
 export * from "./prompts";
 export * from "./validator";
 
+export function isPlaceholderKey(key: string | undefined): boolean {
+  if (!key) return true;
+  const cleaned = key.trim().toLowerCase();
+  return (
+    cleaned === "" ||
+    cleaned.startsWith("your_") ||
+    cleaned.includes("api_key_here") ||
+    cleaned.includes("placeholder") ||
+    cleaned === "xxx" ||
+    cleaned === "todo" ||
+    cleaned.length < 10
+  );
+}
+
 export function getAIProvider(): { provider: AIProvider; mode: "gemini" | "openai" | "demo" } {
   const geminiKey = process.env.GEMINI_API_KEY?.trim();
-  if (geminiKey) {
+  if (geminiKey && !isPlaceholderKey(geminiKey)) {
     const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
     return {
       provider: new GeminiAIProvider(geminiKey, model),
@@ -18,7 +32,7 @@ export function getAIProvider(): { provider: AIProvider; mode: "gemini" | "opena
   }
 
   const openaiKey = process.env.OPENAI_API_KEY?.trim();
-  if (openaiKey) {
+  if (openaiKey && !isPlaceholderKey(openaiKey)) {
     const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
     return {
       provider: new OpenAIAIProvider(openaiKey, model),

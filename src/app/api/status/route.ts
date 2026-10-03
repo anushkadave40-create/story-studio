@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getProviderInfo } from "@/lib/ai";
+import { getProviderInfo, isPlaceholderKey } from "@/lib/ai";
 
 export async function GET() {
   const info = getProviderInfo();
@@ -7,8 +7,8 @@ export async function GET() {
     status: "ok",
     ...info,
     configuredKeys: {
-      gemini: Boolean(process.env.GEMINI_API_KEY?.trim()),
-      openai: Boolean(process.env.OPENAI_API_KEY?.trim())
+      gemini: Boolean(process.env.GEMINI_API_KEY && !isPlaceholderKey(process.env.GEMINI_API_KEY)),
+      openai: Boolean(process.env.OPENAI_API_KEY && !isPlaceholderKey(process.env.OPENAI_API_KEY))
     }
   });
 }

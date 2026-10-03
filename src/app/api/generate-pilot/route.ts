@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAIProvider } from "@/lib/ai";
+import { DemoAIProvider } from "@/lib/ai/providers/demo";
 import { PilotGenerationParams } from "@/types/story";
 
 export async function POST(req: NextRequest) {
@@ -26,14 +27,35 @@ export async function POST(req: NextRequest) {
     };
 
     const { provider, mode } = getAIProvider();
-    const pilot = await provider.generatePilot(params);
 
-    return NextResponse.json({
-      success: true,
-      mode,
-      providerName: provider.name,
-      pilot
-    });
+    try {
+      const pilot = await provider.generatePilot(params);
+
+      return NextResponse.json({
+        success: true,
+        mode,
+        providerName: provider.name,
+        pilot
+      });
+    } catch (liveError: unknown) {
+      // If live AI failed (e.g. invalid key, quota, timeout), fall back gracefully to Demo provider
+      if (mode !== "demo") {
+        console.warn("Live AI provider failed, falling back to Demo provider:", liveError);
+        const demoProvider = new DemoAIProvider();
+        const pilot = await demoProvider.generatePilot(params);
+
+        const errorMessage = liveError instanceof Error ? liveError.message : "Provider connection error";
+
+        return NextResponse.json({
+          success: true,
+          mode: "demo",
+          providerName: demoProvider.name,
+          warning: `Live AI error (${errorMessage}). Fell back to Demo Studio Engine so your workflow was not interrupted.`,
+          pilot
+        });
+      }
+      throw liveError;
+    }
   } catch (error: unknown) {
     console.error("Error generating pilot:", error);
     const message = error instanceof Error ? error.message : "Failed to generate micro-drama pilot";

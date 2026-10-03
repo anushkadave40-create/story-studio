@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAIProvider } from "@/lib/ai";
+import { DemoAIProvider } from "@/lib/ai/providers/demo";
 import { AdaptationParams } from "@/types/story";
 
 export async function POST(req: NextRequest) {
@@ -28,14 +29,34 @@ export async function POST(req: NextRequest) {
     };
 
     const { provider, mode } = getAIProvider();
-    const adaptation = await provider.adaptScript(params);
 
-    return NextResponse.json({
-      success: true,
-      mode,
-      providerName: provider.name,
-      adaptation
-    });
+    try {
+      const adaptation = await provider.adaptScript(params);
+
+      return NextResponse.json({
+        success: true,
+        mode,
+        providerName: provider.name,
+        adaptation
+      });
+    } catch (liveError: unknown) {
+      if (mode !== "demo") {
+        console.warn("Live AI adaptation failed, falling back to Demo provider:", liveError);
+        const demoProvider = new DemoAIProvider();
+        const adaptation = await demoProvider.adaptScript(params);
+
+        const errorMessage = liveError instanceof Error ? liveError.message : "Provider connection error";
+
+        return NextResponse.json({
+          success: true,
+          mode: "demo",
+          providerName: demoProvider.name,
+          warning: `Live AI error (${errorMessage}). Fell back to Demo Studio Engine so your workflow was not interrupted.`,
+          adaptation
+        });
+      }
+      throw liveError;
+    }
   } catch (error: unknown) {
     console.error("Error adapting script:", error);
     const message = error instanceof Error ? error.message : "Failed to adapt story";

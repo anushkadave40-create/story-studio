@@ -157,7 +157,11 @@ export default function StoryStudioApp() {
       };
 
       saveProject(updatedProject);
-      showToast(`Generated pilot "${data.pilot.title}"!`);
+      if (data.warning) {
+        showToast(data.warning, "info");
+      } else {
+        showToast(`Generated pilot "${data.pilot.title}"!`);
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Error generating pilot";
       setError(msg);
@@ -192,7 +196,11 @@ export default function StoryStudioApp() {
       };
 
       saveProject(updatedProject);
-      showToast(`Story adapted into ${params.targetLanguage}!`);
+      if (data.warning) {
+        showToast(data.warning, "info");
+      } else {
+        showToast(`Story adapted into ${params.targetLanguage}!`);
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Error adapting story";
       setError(msg);
