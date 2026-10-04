@@ -24,6 +24,7 @@ STRICT PRODUCTION RULES:
 5. TURNING POINT: A definitive mid-episode fulcrum where power or knowledge inverts.
 6. CLIFFHANGER: An unresolved crisis or revelation that makes it impossible for the viewer to swipe away.
 7. PROMOTIONAL ASSETS: Viral vertical hook line and short caption with relevant hashtags.
+8. LANGUAGE REQUIREMENT: Only Hindi and English are supported. If Source Language is "Hindi", the title, logline, synopsis, fullScript, and scene dialogue MUST be written in authentic Devanagari Hindi script (हिंदी / देवनागरी). If "English", write in natural, crisp English.
 
 Return ONLY a valid JSON object matching this exact schema:
 {
@@ -99,6 +100,7 @@ CRITICAL LOCALIZATION RULES:
 3. IDENTIFY 3-5 HUMAN REVIEW FLAGS: Phrases, idioms, honorific choices, or cultural references that human editors/localization QA should verify before final production.
 4. DOCUMENT LOCALIZATION CHOICES: Explain 3-4 specific decisions (honorific shifts, idiom adaptations, register choices) with clear rationales.
 5. SUMMARIZE PRESERVATION: Explicitly state how plot integrity, emotional beats, character voice, and tone were preserved.
+6. BILINGUAL STRICTNESS: Only Hindi and English are supported. If Target Language is "Hindi", the adaptedTitle, adaptedLogline, and adaptedScript MUST be written in natural Devanagari Hindi script (हिंदी देवनागरी). If "English", write in polished English. Preserve character names and scene labels.
 
 SCRIPT TO ADAPT:
 Title: ${params.storyTitle || "Untitled"}

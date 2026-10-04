@@ -18,17 +18,33 @@ export async function POST(req: NextRequest) {
 
     const validStyles = ["faithful", "conversational", "locally_adapted"] as const;
     const resolvedStyle = validStyles.includes(adaptationStyle) ? adaptationStyle : "locally_adapted";
+    const normSource = (sourceLanguage || "English").trim();
+    const normTarget = (targetLanguage || (normSource === "Hindi" ? "English" : "Hindi")).trim();
+
+    if (normSource !== "Hindi" && normSource !== "English") {
+      return NextResponse.json(
+        { error: "Unsupported source language. Story Studio supports only 'Hindi' and 'English'." },
+        { status: 400 }
+      );
+    }
+
+    if (normTarget !== "Hindi" && normTarget !== "English") {
+      return NextResponse.json(
+        { error: "Unsupported target language. Story Studio supports only 'Hindi' and 'English'." },
+        { status: 400 }
+      );
+    }
 
     const params: AdaptationParams = {
       scriptToAdapt: scriptToAdapt.trim(),
       storyTitle: storyTitle?.trim() || "Untitled",
-      sourceLanguage: (sourceLanguage || "English").trim(),
-      targetLanguage: (targetLanguage || "Spanish (Latin America)").trim(),
+      sourceLanguage: normSource as "Hindi" | "English",
+      targetLanguage: normTarget as "Hindi" | "English",
       audienceRegion: audienceRegion?.trim() || undefined,
       adaptationStyle: resolvedStyle
     };
 
-    const { provider, mode } = getAIProvider();
+    const { provider, mode } = await getAIProvider();
 
     try {
       const adaptation = await provider.adaptScript(params);

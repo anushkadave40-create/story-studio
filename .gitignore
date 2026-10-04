@@ -40,3 +40,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local generated media outputs
+/public/outputs/
+!/public/outputs/.gitkeep
+/outputs/*
+
+# local ComfyUI checkouts, runtime data, and model weights (keep out of GitHub)
+/ComfyUI/
+/ComfyUI-VideoHelperSuite/
+/ComfyUI-Installs/
+/models/
+*.safetensors
+*.ckpt
+*.gguf
+*.pt
+*.pth

@@ -114,7 +114,19 @@ export const AdaptationEditor: React.FC<AdaptationEditorProps> = ({
                   All Flags Cleared
                 </span>
               )}
+
+              {adaptation.isDemoSample && (
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  Sample / Offline Demo Output
+                </span>
+              )}
             </div>
+
+            {adaptation.isDemoSample && (
+              <div className="my-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex items-center justify-between gap-2">
+                <span>💡 <strong>Offline Demo Adaptation:</strong> Localized via built-in sample engine. Run <code className="text-white bg-slate-900 px-1 py-0.5 rounded font-mono">ollama run llama3.2</code> to generate custom adaptations locally.</span>
+              </div>
+            )}
 
             <div className="pt-1">
               <input

@@ -1,3 +1,5 @@
+import { SupportedLanguage } from "@/types/story";
+
 export const GENRE_PRESETS = [
   { label: "Corporate Revenge Melodrama", description: "Cutthroat boardrooms, hidden heirlooms, secret wills, hostile takeovers" },
   { label: "Urban Psychological Thriller", description: "Late-night elevators, stalkers, double identities, paranoid revelations" },
@@ -22,18 +24,9 @@ export const DURATION_OPTIONS = [
   { value: "5 min", label: "5 Minutes", description: "~650-800 words • Premium mini-pilot with deep character conflict" }
 ] as const;
 
-export const LANGUAGE_OPTIONS = [
+export const LANGUAGE_OPTIONS: { code: string; name: SupportedLanguage }[] = [
   { code: "en", name: "English" },
-  { code: "es", name: "Spanish (Latin America)" },
-  { code: "es-es", name: "Spanish (Spain)" },
-  { code: "zh", name: "Mandarin Chinese (Simplified)" },
-  { code: "hi", name: "Hindi" },
-  { code: "ja", name: "Japanese" },
-  { code: "ko", name: "Korean" },
-  { code: "fr", name: "French" },
-  { code: "pt-br", name: "Portuguese (Brazil)" },
-  { code: "de", name: "German" },
-  { code: "ar", name: "Arabic (Modern Standard)" }
+  { code: "hi", name: "Hindi" }
 ];
 
 export const ADAPTATION_STYLES = [
@@ -64,6 +57,14 @@ export const PREMISE_INSPIRATIONS = [
     context: "A rain-lashed 54th-floor penthouse boardroom in Manhattan. Dim ambient lighting with city skyline reflections."
   },
   {
+    title: "कांच का बोर्डरूम (The Glass Boardroom)",
+    genre: "Corporate Revenge Melodrama",
+    duration: "3 min" as const,
+    tone: "High Tension & Razor-Sharp Betrayal",
+    premise: "रात के दो बजे, कंपनी के आपातकालीन बोर्ड मीटिंग में, नई मैनेजिंग डायरेक्टर को पता चलता है कि उसके पिता को बर्बाद करने वाला अनाम व्हिसलब्लोअर सामने ही बैठा है—उसके हाथ में वोटिंग का गुप्त अधिकार है।",
+    context: "बारिश में भीगे मुंबई के नरीमन पॉइंट स्थित 54वीं मंजिल का कॉर्पोरेट पेंटहाउस; धीमी एम्बिएंट लाइटिंग।"
+  },
+  {
     title: "Last Floor Down",
     genre: "Urban Psychological Thriller",
     duration: "1 min" as const,
@@ -77,14 +78,6 @@ export const PREMISE_INSPIRATIONS = [
     duration: "3 min" as const,
     tone: "High Tension & Razor-Sharp Betrayal",
     premise: "A neuro-programmer discovers that her wedding anniversary dinner with her charismatic husband is a simulation she has restarted 42 times trying to prevent him from deleting her memory.",
-    context: "An ultra-minimalist smart villa overlooking the Pacific Ocean; subtle glitch artifacts on wine glasses."
-  },
-  {
-    title: "The Counterfeit Bride",
-    genre: "Billionaire Undercover / Identity Reveal",
-    duration: "3 min" as const,
-    tone: "Emotionally Charged & Melodramatic",
-    premise: "A humble archivist hired as a stand-in bride for a billionaire's staged wedding discovers the groom is the blind detective she saved from a hit-and-run six years ago.",
-    context: "Grand cathedral dressing room before the processional; stained glass light and bridal veil."
+    context: "An ultra-minimalist smart villa overlooking the ocean; subtle glitch artifacts on wine glasses."
   }
 ];

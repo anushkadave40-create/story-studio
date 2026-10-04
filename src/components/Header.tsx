@@ -11,9 +11,11 @@ interface HeaderProps {
   onOpenExport: () => void;
   lastSavedTime: string | null;
   providerInfo: {
-    mode: "gemini" | "openai" | "demo";
+    mode: "ollama" | "demo";
     providerName: string;
     isLive: boolean;
+    model?: string;
+    comfyAvailable?: boolean;
   };
 }
 
@@ -60,8 +62,8 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2">
               <span className="font-bold tracking-tight text-white text-base">Story Studio</span>
-              <span className="text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                Content AI
+              <span className="text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                100% Free & Local
               </span>
             </div>
 
@@ -115,23 +117,29 @@ export const Header: React.FC<HeaderProps> = ({
                 providerInfo.isLive ? "bg-emerald-400 animate-pulse" : "bg-amber-400"
               }`}
             />
-            <span>{providerInfo.isLive ? `Live AI: ${providerInfo.providerName}` : "Demo Mode Active"}</span>
+            <span>{providerInfo.isLive ? `Local Ollama: ${providerInfo.model || "Connected"}` : "Offline Demo (Sample Mode)"}</span>
             <HelpCircle className="w-3.5 h-3.5 opacity-60" />
           </button>
 
           {showDemoInfo && (
-            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-80 p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs shadow-2xl z-50">
-              <p className="font-semibold text-white mb-1">
-                {providerInfo.isLive ? "Live AI Generation Active" : "About Demo Mode"}
-              </p>
-              <p className="text-slate-300 mb-2 leading-relaxed">
-                {providerInfo.isLive
-                  ? `Connected to ${providerInfo.providerName}. Live prompts are processed on the server.`
-                  : "No API key configured. The app runs in fully autonomous demo mode with realistic, production-ready micro-dramas and cultural adaptations."}
-              </p>
-              <p className="text-[11px] text-slate-400 border-t border-slate-800 pt-1.5">
-                To connect live models, set <code className="text-indigo-300">GEMINI_API_KEY</code> or <code className="text-indigo-300">OPENAI_API_KEY</code> in your environment.
-              </p>
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-88 p-4 rounded-xl bg-slate-900 border border-slate-700 text-xs shadow-2xl z-50 space-y-2.5">
+              <div>
+                <p className="font-semibold text-white mb-0.5">
+                  {providerInfo.isLive ? "Local Ollama Active" : "Offline Demo Mode (Sample)"}
+                </p>
+                <p className="text-slate-300 leading-relaxed text-[11px]">
+                  {providerInfo.isLive
+                    ? `Connected to Ollama on http://127.0.0.1:11434 with model '${providerInfo.model}'. Script generation runs on your local machine with zero external API calls.`
+                    : "Ollama is not running. Story Studio is operating in offline demo mode. Run 'ollama run llama3.2' to generate novel scripts locally with full AI."}
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-300 space-y-1">
+                <span className="font-semibold text-indigo-300 block">Local Video Backend (ComfyUI):</span>
+                <p className="text-slate-400">
+                  Video synthesis connects to your local ComfyUI server (<code className="text-amber-300">http://127.0.0.1:8188</code>). Completely free with no hosted APIs or credit cards.
+                </p>
+              </div>
             </div>
           )}
         </div>
@@ -141,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onLoadSample}
             className="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 text-indigo-300 text-xs font-medium flex items-center gap-1.5 transition-all shadow-sm"
-            title="Load ready-to-inspect micro-drama with English pilot & Spanish adaptation"
+            title="Load ready-to-inspect micro-drama with English pilot & Hindi (Devanagari) adaptation"
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
             <span className="hidden sm:inline">Load Sample Project</span>

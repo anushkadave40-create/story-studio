@@ -1,228 +1,66 @@
-# 🎬 Story Studio
+# Story Studio
 
-> **An End-to-End AI-Assisted Micro-Drama & Multilingual Story Workflow Suite**  
-> *A portfolio project built for a Content AI Management Trainee role.*
+**A local-first AI micro-drama and Hindi–English story adaptation studio.**
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.3-black?style=flat&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Story Studio turns a premise into a short-form drama pilot and scene breakdown, helps adapt a screenplay between Hindi and English, and can render a selected scene as a local video clip. It is designed as a content workflow prototype: generate, review, adapt, and export.
 
----
+> This is a portfolio project, not a hosted service. Script and video generation connect to software running on the same computer. The demo mode works without an AI model and labels its sample output clearly.
 
-## 📌 Project Overview
+## What it demonstrates
 
-**Story Studio** is a creative production tool engineered to bridge generative AI capabilities with professional vertical short-form drama production. Unlike generic chatbots, Story Studio operates as a specialized workflow workstation for Content AI managers, showrunners, and localization teams producing 1-to-5-minute serials for mobile-first platforms (e.g., ReelShort, DramaBox, TikTok, YouTube Shorts).
+- **Micro-drama development:** premise, genre, tone, hooks, screenplay, and scene breakdowns.
+- **Hindi ↔ English adaptation:** adaptation styles and human-review cues for idioms and cultural context.
+- **Local model workflow:** Ollama for script generation, with an explicit offline sample mode when Ollama is unavailable.
+- **Scene-to-video workflow:** send a selected scene to local ComfyUI and preview or save the resulting clip.
+- **Production handoff:** workflow notes, quality checklist, and Markdown/JSON export.
 
-The application demonstrates two interconnected pipelines:
-1. **Micro-Drama Pilot Creation:** Engineering high-retention screenplays with strict narrative architecture (0–3 second opening hooks, turning points, pacing calibration, and episode-ending cliffhangers).
-2. **Multilingual Story Adaptation:** Transcoding scripts into target territories with cultural idiom localization, formality adjustments, and automated **Human Review Flags** for sensitive or ambiguous expressions.
+## Technology
 
----
+Next.js 16 · React · TypeScript · Tailwind CSS · Ollama · ComfyUI
 
-## 📸 Application Interface & Workflow
+## Run Story Studio
 
-<!-- Place screenshots or GIFs here -->
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│  🎬 Story Studio   [Live AI: Gemini / Demo Mode]  [Sample] [Export]      │
-├──────────────────────────────────────────────────────────────────────────┤
-│  [ 1. Micro-Drama Pilot ] [ 2. Multilingual Adapt ] [ 3. Export ] [ 4. QA]│
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  Premise Form ───► Full Screenplay ───► Scene Breakdown ───► Hooks & Promo│
-│                          │                                               │
-│                          ▼                                               │
-│             Target Territory & Style Selector                            │
-│                          │                                               │
-│                          ▼                                               │
-│       Localized Screenplay + Human Review Flags (Idioms / QA)            │
-│                          │                                               │
-│                          ▼                                               │
-│       Markdown / JSON Deliverables + Workflow Audit Trail                │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+Requirements: Node.js 20 or later and npm.
 
-> **UI Screenshot Preview:**  
-> *(Add application screenshots here showing the Screenplay Editor, Scene Cards, Human Review Flags, and Export modal)*
-
----
-
-## ✨ Core Features
-
-### 1. Micro-Drama Pilot Studio
-- **Configurable Creative Parameters:** Story premise, genre selection (Corporate Revenge, Psychological Thriller, Sci-Fi Time-Loop, etc.), target audience demographic, source language, tone, and physical setting context.
-- **Duration & Pacing Calibration:**
-  - `1 min` (~140 words, hyper-accelerated conflict)
-  - `3 min` (~400 words, balanced 3-beat structure)
-  - `5 min` (~750 words, extended dramatic tension)
-- **High-Retention Dramatic Architecture:**
-  - **Opening Hook (First 3–5 seconds):** In media res visual shock and audio ultimatum engineered to prevent swipe-away on vertical feeds.
-  - **Emotional Turning Point:** Mid-episode fulcrum reversing power dynamics between protagonist and antagonist.
-  - **Ending Cliffhanger:** Critical unresolved question forcing continuous viewing into the subsequent episode.
-- **Production Breakdown:** Scene-by-scene visual descriptions, vertical camera pacing (macro close-ups, Dutch angles), and lighting/audio SFX notes.
-- **Promotional Reel Hook:** Social video text hook, caption, audio recommendation, and hashtags.
-
-### 2. Multilingual Story Adaptation & Localization QA
-- **Script Flexibility:** Adapt the active generated pilot or paste any external screenplay.
-- **Cultural Adaptation Strategies:**
-  - *Faithful & Nuanced:* Preserves direct cadence and dramatic meaning.
-  - *Conversational Vernacular:* Natural spoken modern idioms and contemporary slang.
-  - *Deep Cultural Localization:* Re-anchors honorifics, corporate hierarchies, and territory conventions.
-- **Human-in-the-Loop Review Flags:** Automatically identifies and tags phrases requiring verification by regional editors (idioms, register formality, cultural sensitivities, slang ambiguities).
-- **Localization Rationale Table:** Documents specific cultural choices with editorial justifications.
-- **Preservation Summary:** Audits the retention of plot integrity, emotional beats, character voices, and dramatic tone.
-
-### 3. Production Package Export
-- **Markdown Export (`.md`):** Formatted industry screenplay package containing metadata, character dossiers, scene breakdown cards, localization audit tables, review flags, and QA sign-offs.
-- **Structured JSON Export (`.json`):** Complete project state for ingestion into content management systems or automated production pipelines.
-- **One-Click Clipboard Copying:** Direct copy for screenplays, scene lists, and markdown packages.
-
-### 4. Content AI Workflow Notes & QA Gate
-- **Tooling Stack Documentation:** Track language models, temperature settings, and benchmarking tools used.
-- **Prompt Revision History:** Version log capturing system prompt iterations and constraints.
-- **Production & Camera Notes:** Record framing observations for 9:16 mobile capture.
-- **Interactive QA Checklist:** 5-point quality gate verifying hooks, dialogue velocity, sensitivity flags, and cliffhangers before publishing.
-
-### 5. Local Storage & Sample Project
-- **Browser Persistence:** Active projects auto-save locally so page refreshes never erase work.
-- **1-Click Sample Project:** Pre-loads *"The Glass Boardroom"* (English pilot + Latin American Spanish adaptation) so reviewers can test the entire workflow instantly without configuration.
-
----
-
-## 🤖 AI Implementation & Provider Abstraction
-
-Story Studio uses a **clean server-side provider abstraction** (`src/lib/ai/`):
-- API keys are **never** exposed to the client or browser bundle.
-- Prompts use structured JSON schemas with server-side validation and fallback repairs (`src/lib/ai/validator.ts`).
-- Supports changing AI providers without modifying the UI layer.
-
-### Provider Matrix
-
-| Mode | Provider | Key Environment Variable | Default Model | Fallback |
-| :--- | :--- | :--- | :--- | :--- |
-| **Live AI (Recommended)** | Google Gemini | `GEMINI_API_KEY` | `gemini-2.5-flash` | Automatic schema repair |
-| **Live AI (Alternative)** | OpenAI | `OPENAI_API_KEY` | `gpt-4o-mini` | JSON Object mode |
-| **Demo Mode (Default)** | Studio Engine | *(None required)* | Offline Generator | 100% Free / Ready Out-of-the-Box |
-
-### Live AI vs. Demo Mode
-
-- **Demo Mode:** If no API key is detected in the environment, Story Studio runs in **Demo Mode**. It generates dynamic, realistic, production-ready micro-dramas and multilingual adaptations tailored to user inputs using curated dramaturgical models. No external network request or paid account is required.
-- **Live AI Mode:** When `GEMINI_API_KEY` or `OPENAI_API_KEY` is set, the server dispatches live prompts to the respective LLM endpoint using structured JSON schemas.
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js `18.18+` or `20+` (tested on Node v24.21.0)
-- npm, pnpm, or yarn
-
-### 1. Clone & Install
 ```bash
-git clone https://github.com/your-username/story-studio.git
+git clone https://github.com/YOUR_USERNAME/story-studio.git
 cd story-studio
-npm install
-```
-
-### 2. Configure Environment (Optional)
-Copy the example environment template:
-```bash
+npm ci
 cp .env.example .env.local
-```
-
-Edit `.env.local` with your preferred AI provider key:
-```env
-# Google Gemini
-GEMINI_API_KEY=your_actual_gemini_api_key_here
-GEMINI_MODEL=gemini-2.5-flash
-
-# OR OpenAI
-# OPENAI_API_KEY=your_actual_openai_key_here
-# OPENAI_MODEL=gpt-4o-mini
-```
-
-*(If you skip this step, the app immediately functions in Demo Mode).*
-
-### 3. Run Locally
-```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 4. Build & Type Check
+Open [http://localhost:3000](http://localhost:3000). Replace `YOUR_USERNAME` with your GitHub username after creating the repository.
+
+### Generate scripts with Ollama (optional)
+
+Install [Ollama](https://ollama.com), then run a local model:
+
 ```bash
-npm run build
+ollama run llama3.2
 ```
 
----
+The app uses `http://127.0.0.1:11434` and `llama3.2` by default. Change `OLLAMA_BASE_URL` or `OLLAMA_MODEL` in `.env.local` if needed. If Ollama is not running, Story Studio uses its clearly labelled offline demo mode.
 
-## 🌐 Deploying to Vercel
+### Generate video with ComfyUI (optional)
 
-Story Studio is configured for zero-config deployment on Vercel:
+Video generation requires [ComfyUI](https://www.comfy.org/download) running locally at `http://127.0.0.1:8188`. ComfyUI Desktop manages its own instances and model storage; install the required models into the storage directory for the instance connected to Story Studio.
 
-1. Push your repository to GitHub.
-2. Import the project into your [Vercel Dashboard](https://vercel.com/new).
-3. **Environment Variables:**
-   - For **Demo Mode (Free):** Leave environment variables blank. Vercel will build and serve the app with full functionality.
-   - For **Live AI:** Add `GEMINI_API_KEY` (or `OPENAI_API_KEY`) under *Project Settings > Environment Variables*.
-4. Click **Deploy**.
+For the included LTX workflow, install:
 
----
+- [LTX-Video checkpoint](https://huggingface.co/Lightricks/LTX-Video/blob/main/ltx-video-2b-v0.9.5.safetensors) in `models/checkpoints/` (about 6.34 GB).
+- [T5 text encoder](https://huggingface.co/comfyanonymous/flux_text_encoders/blob/main/t5xxl_fp16.safetensors) in `models/text_encoders/` (about 9.79 GB).
 
-## 📁 Repository Structure
+The two model files require about **16.1 GB** of disk space. ComfyUI Desktop can use its built-in video export when available. If it is unavailable, install VideoHelperSuite from ComfyUI Desktop’s Extensions panel. Restart ComfyUI after installing models or extensions, then use **Test Connection** in Story Studio.
 
-```
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── adapt-story/route.ts    # Server-side multilingual adaptation endpoint
-│   │   │   ├── generate-pilot/route.ts # Server-side micro-drama generation endpoint
-│   │   │   └── status/route.ts         # Health & active provider inspection
-│   │   ├── globals.css                 # Dark cinema theme, glassmorphism & typography
-│   │   ├── layout.tsx                  # Root layout with SEO metadata & viewport
-│   │   └── page.tsx                    # Main studio workstation interface
-│   ├── components/
-│   │   ├── AdaptationEditor.tsx        # Screenplay editor & Human Review Flags
-│   │   ├── AdaptationForm.tsx          # Localization style & territory selector
-│   │   ├── ExportModal.tsx             # Markdown / JSON download & copy modal
-│   │   ├── Header.tsx                  # Project title, provider indicator & actions
-│   │   ├── PilotEditor.tsx             # Screenplay, scene cards & retention hooks
-│   │   ├── PilotForm.tsx               # Pilot premise, duration & tone form
-│   │   ├── Toast.tsx                   # Floating feedback notifications
-│   │   └── WorkflowNotesPanel.tsx      # Content AI audit notes & QA checklist
-│   ├── data/
-│   │   ├── presets.ts                  # Genres, durations, languages & inspirations
-│   │   └── sampleProject.ts            # "The Glass Boardroom" ready-to-test project
-│   ├── lib/
-│   │   ├── ai/
-│   │   │   ├── providers/
-│   │   │   │   ├── demo.ts             # Built-in offline dynamic generator
-│   │   │   │   ├── gemini.ts           # Gemini 2.5 Flash implementation
-│   │   │   │   └── openai.ts           # OpenAI gpt-4o-mini implementation
-│   │   │   ├── index.ts                # Provider factory & config detector
-│   │   │   ├── prompts.ts              # Structured JSON system instructions
-│   │   │   ├── types.ts                # AI Provider interface
-│   │   │   └── validator.ts            # Robust JSON validation & sanitization
-│   │   └── exportUtils.ts              # Markdown & JSON export generators
-│   └── types/
-│       └── story.ts                    # Complete TypeScript definitions
-├── .env.example                        # Template for API keys
-├── .gitignore                          # Clean gitignore excluding secrets & build files
-├── package.json
-└── tsconfig.json
-```
+The model weights are not included in this repository. Keep them out of GitHub; their usage terms are separate from this project's MIT license. Video rendering speed and feasibility depend on your computer.
 
----
+## Privacy and deployment
 
-## 🔒 Scope & Disclaimers
+When run locally, Story Studio sends prompts to the local Ollama and ComfyUI services configured for that machine; it does not require hosted AI API keys. The app stores the active project in the browser's local storage and saves rendered clips under `public/outputs/` locally.
 
-- **Creative Asset Focus:** Story Studio produces production-ready screenplays, scene breakdowns, retention architecture, and human-in-the-loop localization reviews. It does **not** synthesize finished video files or audio voiceovers.
-- **Privacy & Security:** API keys are never stored on client devices or exposed in network traffic. No user story content is sent to third parties when running in Demo Mode.
-- **Human-in-the-Loop Philosophy:** Generative AI accelerates script drafting, but cultural drama nuances and sensitive expressions are intentionally routed through Human Review Flags for editorial verification.
+The source repo is suitable for a GitHub portfolio link. A public deployment is not included: a hosted server cannot access your computer's `127.0.0.1` services, so online generation would need a different backend setup.
 
----
+## License
 
-## 📄 License
-
-This project is open-source under the [MIT License](LICENSE).
+Story Studio source code is licensed under the [MIT License](LICENSE). Model weights and third-party tools have their own licenses and are not covered by the project's license.

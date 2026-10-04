@@ -28,6 +28,7 @@ interface PilotEditorProps {
   pilot: MicroDramaPilot;
   onUpdatePilot: (updated: MicroDramaPilot) => void;
   onSendToAdaptation: (script: string, title: string, sourceLang: string) => void;
+  onSendToVideo?: () => void;
   onNotify: (msg: string) => void;
 }
 
@@ -35,6 +36,7 @@ export const PilotEditor: React.FC<PilotEditorProps> = ({
   pilot,
   onUpdatePilot,
   onSendToAdaptation,
+  onSendToVideo,
   onNotify
 }) => {
   const [activeTab, setActiveTab] = useState<"screenplay" | "scenes" | "hooks" | "characters" | "promo">("screenplay");
@@ -88,7 +90,18 @@ export const PilotEditor: React.FC<PilotEditorProps> = ({
               <span className="text-xs px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20">
                 🔥 {pilot.tone}
               </span>
+              {pilot.isDemoSample && (
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  Sample / Offline Demo Output
+                </span>
+              )}
             </div>
+
+            {pilot.isDemoSample && (
+              <div className="my-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex items-center justify-between gap-2">
+                <span>💡 <strong>Offline Demo Output:</strong> Generated via built-in sample engine. Run <code className="text-white bg-slate-900 px-1 py-0.5 rounded font-mono">ollama run llama3.2</code> to generate custom AI scripts locally.</span>
+              </div>
+            )}
 
             {isEditingMetadata ? (
               <div className="space-y-3 pt-2">
@@ -142,15 +155,25 @@ export const PilotEditor: React.FC<PilotEditorProps> = ({
             )}
           </div>
 
-          {/* Direct Workflow Hand-off Button */}
+          {/* Direct Workflow Hand-off Buttons */}
           <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
             <button
               onClick={() => onSendToAdaptation(pilot.fullScript, pilot.title, pilot.sourceLanguage)}
               className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/25 transition-all"
             >
-              <span>Adapt to Another Language</span>
+              <span>Adapt to {pilot.sourceLanguage === "Hindi" ? "English" : "Hindi (Devanagari)"}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
+
+            {onSendToVideo && (
+              <button
+                onClick={onSendToVideo}
+                className="px-3.5 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+              >
+                <Clapperboard className="w-3.5 h-3.5 text-amber-400" />
+                <span>AI Video (Google Veo)</span>
+              </button>
+            )}
 
             <button
               onClick={handleCopyScript}
@@ -271,6 +294,19 @@ export const PilotEditor: React.FC<PilotEditorProps> = ({
                     className="font-bold text-white text-sm bg-transparent border-b border-transparent hover:border-slate-700 focus:border-indigo-500 focus:outline-none px-1"
                   />
                 </div>
+
+                {onSendToVideo && (
+                  <button
+                    onClick={() => {
+                      onSendToVideo();
+                      onNotify(`Switched to AI Video studio for Scene ${scene.sceneNumber}`);
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[11px] font-medium flex items-center gap-1.5 transition-all shrink-0"
+                  >
+                    <Clapperboard className="w-3 h-3 text-amber-400" />
+                    <span>Create Video (Veo)</span>
+                  </button>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">

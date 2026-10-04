@@ -167,6 +167,30 @@ ${w.productionObservations || "Optimized for 9:16 mobile display."}
 `;
   }
 
+  if (project.videoJobs && project.videoJobs.length > 0) {
+    md += `
+---
+
+## 9. AI VIDEO PRODUCTION & SHOT GENERATION (LOCAL COMFYUI)
+
+`;
+    project.videoJobs.forEach((job, idx) => {
+      md += `
+### Video Clip ${idx + 1}: Scene ${job.sceneNumber} (${job.aspectRatio}, ${job.durationSeconds}s)
+- **Status:** ${job.status.toUpperCase()}
+- **Backend:** Local ComfyUI (Free Open-Source Model)
+- **Resolution:** ${job.resolution}
+- **Created At:** ${new Date(job.createdAt).toLocaleString()}
+- **Synthesized Prompt:**
+\`\`\`text
+${job.prompt}
+\`\`\`
+${job.videoUrl ? `- **Video Asset URL:** ${job.videoUrl}\n` : ""}
+${job.localFilename ? `- **Local Output Path:** \`public/outputs/${job.localFilename}\`\n` : ""}
+`;
+    });
+  }
+
   md += `
 ---
 *Produced with Story Studio — AI Micro-Drama Creative Suite*

@@ -1,60 +1,72 @@
 import { AIProvider } from "./types";
-import { GeminiAIProvider } from "./providers/gemini";
-import { OpenAIAIProvider } from "./providers/openai";
+import { OllamaAIProvider } from "./providers/ollama";
 import { DemoAIProvider } from "./providers/demo";
 
 export * from "./types";
 export * from "./prompts";
 export * from "./validator";
+export * from "./providers/ollama";
+export * from "./providers/demo";
 
-export function isPlaceholderKey(key: string | undefined): boolean {
-  if (!key) return true;
-  const cleaned = key.trim().toLowerCase();
-  return (
-    cleaned === "" ||
-    cleaned.startsWith("your_") ||
-    cleaned.includes("api_key_here") ||
-    cleaned.includes("placeholder") ||
-    cleaned === "xxx" ||
-    cleaned === "todo" ||
-    cleaned.length < 10
-  );
+export interface ProviderInspection {
+  mode: "ollama" | "demo";
+  providerName: string;
+  isLive: boolean;
+  model: string;
+  baseUrl?: string;
+  installedModels?: string[];
+  note?: string;
 }
 
-export function getAIProvider(): { provider: AIProvider; mode: "gemini" | "openai" | "demo" } {
-  const geminiKey = process.env.GEMINI_API_KEY?.trim();
-  if (geminiKey && !isPlaceholderKey(geminiKey)) {
-    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-    return {
-      provider: new GeminiAIProvider(geminiKey, model),
-      mode: "gemini"
-    };
-  }
+export async function getAIProvider(): Promise<{
+  provider: AIProvider;
+  mode: "ollama" | "demo";
+  model: string;
+  isLive: boolean;
+}> {
+  const ollamaUrl = process.env.OLLAMA_BASE_URL || "http://127.0.0.1:11434";
+  const ollamaCheck = await OllamaAIProvider.checkAvailable(ollamaUrl);
 
-  const openaiKey = process.env.OPENAI_API_KEY?.trim();
-  if (openaiKey && !isPlaceholderKey(openaiKey)) {
-    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+  if (ollamaCheck.available) {
+    const modelToUse = ollamaCheck.selectedModel || process.env.OLLAMA_MODEL || "llama3.2";
     return {
-      provider: new OpenAIAIProvider(openaiKey, model),
-      mode: "openai"
+      provider: new OllamaAIProvider(ollamaUrl, modelToUse),
+      mode: "ollama",
+      model: modelToUse,
+      isLive: true
     };
   }
 
   return {
     provider: new DemoAIProvider(),
-    mode: "demo"
+    mode: "demo",
+    model: "Offline Demo Engine (Sample Mode)",
+    isLive: false
   };
 }
 
-export function getProviderInfo(): {
-  mode: "gemini" | "openai" | "demo";
-  providerName: string;
-  isLive: boolean;
-} {
-  const { provider, mode } = getAIProvider();
+export async function getProviderInfo(): Promise<ProviderInspection> {
+  const ollamaUrl = process.env.OLLAMA_BASE_URL || "http://127.0.0.1:11434";
+  const ollamaCheck = await OllamaAIProvider.checkAvailable(ollamaUrl);
+
+  if (ollamaCheck.available) {
+    const model = ollamaCheck.selectedModel || process.env.OLLAMA_MODEL || "llama3.2";
+    return {
+      mode: "ollama",
+      providerName: `Local Ollama (${model})`,
+      isLive: true,
+      model,
+      baseUrl: ollamaUrl,
+      installedModels: ollamaCheck.models
+    };
+  }
+
   return {
-    mode,
-    providerName: provider.name,
-    isLive: mode !== "demo"
+    mode: "demo",
+    providerName: "Offline Demo Engine (Sample Mode)",
+    isLive: false,
+    model: "Sample Generator",
+    baseUrl: ollamaUrl,
+    note: "Local Ollama is offline. Story Studio is using offline demo mode. Run 'ollama run llama3.2' to enable custom local AI script generation."
   };
 }

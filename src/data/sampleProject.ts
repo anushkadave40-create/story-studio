@@ -153,135 +153,135 @@ FADE OUT.`,
     id: "adaptation-sample-01",
     createdAt: new Date().toISOString(),
     sourceLanguage: "English",
-    targetLanguage: "Spanish (Latin America)",
-    audienceRegion: "Latin American OTT & Vertical Short-Form Drama (Mexico / Colombia / US Hispanic)",
+    targetLanguage: "Hindi",
+    audienceRegion: "Indian OTT & Vertical Short-Form Drama (Tier-1 / Tier-2 Streaming)",
     adaptationStyle: "locally_adapted",
-    adaptedTitle: "El Directorio de Cristal",
-    adaptedLogline: "A las dos de la madrugada durante una adquisición hostil, una implacable nueva directora descubre que el testaferro anónimo que arruinó a su padre preside la mesa — con el poder fiduciario en la mano.",
-    adaptedScript: `INT. SALA DE JUNTAS DE VANGUARD - NOCHE (02:14 AM)
+    adaptedTitle: "कांच का बोर्डरूम (The Glass Boardroom)",
+    adaptedLogline: "रात के दो बजे, एक बहुराष्ट्रीय कंपनी के जबरन अधिग्रहण के दौरान, एक नई मैनेजिंग डायरेक्टर को पता चलता है कि जिस अनाम व्हिसलब्लोअर ने उसके पिता को बर्बाद किया था, वह मेज के उस पार बैठा है—वोटिंग अधिकार अपने हाथ में लिए।",
+    adaptedScript: `INT. VANGUARD BOARDROOM - NIGHT (02:14 AM)
 
-Una tormenta azota los ventanales de piso a techo. Las luces de la metrópoli parpadean bajo el aguacero.
+कांच की ऊंची दीवारों से मूसलाधार बारिश टकरा रही है। बाहर महानगर की धुंधली रोशनी चमक रही है।
 
-ELENA VANCE (29 años, blazer gris carbón a la medida, mirada gélida y calculadora) domina la cabecera de la mesa.
+ELENA VANCE (29 वर्ष, चारकोल ब्लेज़र, आंखों में ठंडा हिसाब-किताब) मेज के सिरे पर खड़ी है।
 
-Frente a ella está JULIAN CROSS (52 años, cabello cano pulido, traje italiano impecable, sonriendo con desdén).
+सामने बैठा है JULIAN CROSS (52 वर्ष, चांदी जैसे बाल, रेशमी सूट, होंठों पर व्यंग्यात्मक मुस्कान)।
 
-Entre ambos se encuentra KAI CHEN (31 años), con la laptop abierta; la pantalla refleja gráficas bursátiles en tiempo real.
-
-ELENA
-La bolsa de Tokio abre en cuarenta segundos, Julián. Las acciones fiduciarias están blindadas. Estás fuera.
-
-Julián ni pestañea. Hace girar el licor ámbar en su vaso de cristal cortado, divertido.
-
-JULIÁN
-Un discurso muy apasionado, Elena. Tu padre usaba exactamente el mismo prólogo antes de entregar el patrimonio de su vida.
+दोनों के बीच बैठा है कानूनी सलाहकार KAI CHEN (31 वर्ष), जिसकी उंगलियां कांपते हुए लैपटॉप पर टिकी हैं।
 
 ELENA
-(con voz firme, cortante)
-Mi padre confió en una serpiente. Yo traje el antídoto. Kai, ejecuta la revocación de acciones ahora mismo.
+टोक्यो का शेयर बाजार चालीस सेकंड में खुलने वाला है, जूलियन। सारे वोटिंग अधिकार मेरे पास सुरक्षित हैं। तुम्हारा खेल खत्म।
 
-Kai titubea, con los dedos temblorosos suspendidos sobre el teclado. Mira de reojo a Julián.
+जूलियन ने पलक तक नहीं झपकाई। वह अपने हाथ में थामे कट-ग्लास के गिलास को धीरे से घुमाता है।
 
-JULIÁN
-Adelante, licenciado Chen. Explíquele a nuestra flamante Directora General lo que estipula el Artículo 14, inciso C.
+JULIAN
+बहुत जोशीला भाषण, एलेना। तुम्हारे पिता भी अपनी जिंदगी की मेहनत सौंपने से पहले ठीक यही डायलॉग बोलते थे।
 
-El semblante de Elena se tensa. Una grieta microscópica en su coraza.
+ELENA
+(धीमी, धारदार आवाज में)
+मेरे पिता ने एक आस्तीन के सांप पर भरोसा किया था। मैं उसका जहर काटने का इंतजाम करके आई हूं। काई, शेयर जब्ती का आदेश लागू करो।
+
+काई हिचकिचाता है, उसकी उंगलियां एंटर की पर कांप रही हैं। वह घबराकर जूलियन की ओर देखता है।
+
+JULIAN
+शाबाश काई, डरने की जरूरत नहीं। हमारी नई साहिबा को जरा धारा 14, उप-धारा 'ग' पढ़कर सुनाओ।
+
+एलेना के चेहरे पर हल्की सी शिकन आती है। उसके आत्मविश्वास में एक दरार।
 
 KAI
-(aclarándose la garganta, con voz trémula)
-Elena... cualquier votación extraordinaria convocada después de medianoche exige consentimiento unánime del fideicomiso fundador.
+(गला साफ करते हुए, थरथराती आवाज)
+एलेना... आधी रात के बाद बुलाई गई किसी भी आपात बैठक में, संस्थापक ट्रस्ट की शत-प्रतिशत सहमति अनिवार्य है।
 
 ELENA
-¡El fideicomiso fundador está bajo mi firma!
+संस्थापक ट्रस्ट मेरे नाम पर है!
 
-JULIÁN
-¿Revisaste la caja de seguridad de Midtown Trust esta mañana?
+JULIAN
+क्या तुमने आज सुबह बैंक का सेफ-डिपॉजिट लॉकर चेक किया था?
 
-Julián mete la mano con parsimonia en el bolsillo interior de su saco. Desliza una pluma fuente de oro envejecido sobre la caoba pulida.
+जूलियन अपने कोट की भीतरी जेब में हाथ डालता है। वह महोगनी की मेज पर सोने का एक पुराना फाउंटेन पेन सरका देता है।
 
-Un blasón con un águila imperial destaca en la tapa. A Elena se le corta la respiración.
+पेन के ढक्कन पर गरुड़ का शाही निशान तराशा हुआ है। एलेना की सांस गले में ही अटक जाती है।
 
 ELENA
-¿De dónde sacaste eso? Esa pluma estaba en el despacho de mi papá la noche que murió.
+यह तुम्हारे पास कहां से आया? यह पेन उस रात मेरे पिता की मेज पर था, जिस रात उनकी जान गई थी...
 
-JULIÁN
-(inclinándose, con un susurro venenoso)
-Tu padre no murió de un infarto por la quiebra, Elena. Me vendió ese fideicomiso por tres millones en bonos basura... y se despidió riéndose en mi cara.
+JULIAN
+(आगे झुकते हुए, जहर बुझी फुसफुसाहट में)
+तुम्हारे पिता सदमे से नहीं मरे थे, एलेना। उन्होंने वो ट्रस्ट मुझे तीन करोड़ के रद्दी बॉन्ड्स के बदले बेचा था... और हंसते हुए विदा हुए थे।
 
-Un BEEP estridente retumba desde la tableta de Elena.
+अचानक एलेना के टैबलेट से एक तीखी बीप गूंज उठती है।
 
-EN LA PANTALLA: "ANULACIÓN BIOMÉTRICA AUTORIZADA. ACCIONES TRANSFERIDAS A APEX HOLDINGS."
+स्क्रीन पर चमकता है: "बायोमेट्रिक प्रमाणीकरण स्वीकृत। शेयर मालिकाना हक एपेक्स होल्डिंग्स को हस्तांतरित।"
 
-Elena se congela de terror.
+एलेना का चेहरा खौफ से पीला पड़ जाता है।
 
-JULIÁN (CONT.)
-Muchas gracias por tu firma, corazón.
+JULIAN (CONT'D)
+दस्तखत के लिए बहुत-बहुत शुक्रिया, मेरी बच्ची।
 
-Las luces de la sala SE APAGAN DE GOLPE.
+बोर्डरूम की बत्तियां अचानक गुल हो जाती हैं।
 
-Solo la LUZ ROJA DE EMERGENCIA estroboscópica parpadea contra sus rostros.
+सिर्फ लाल रंग की इमरजेंसी लाइट उनके चेहरों पर धड़कने लगती है।
 
-CORTE A NEGRO.`,
+कट टू ब्लैक।`,
     localizationChoices: [
       {
-        area: "Honorifics & Social Distance",
-        originalApproach: "Informal first-name dynamic with corporate legal title references.",
-        adaptedApproach: "Employed the respectful professional title 'licenciado Chen' when Julian addresses legal counsel Kai, reflecting Latin American corporate boardroom hierarchy where formal titles indicate dominance.",
-        rationale: "In LATAM executive culture, shifting between formal deference and cold familiarity ('Elena' vs 'licenciado Chen') intensifies Julian's patronizing authority."
+        area: "Honorifics & Power Inversion (साहिबा / मेरी बच्ची / आप vs तुम)",
+        originalApproach: "Direct first-name confrontation with American corporate slang.",
+        adaptedApproach: "Employed the sarcastic address 'हमारी नई साहिबा' when Julian speaks to Kai, and the chilling patriarchal sign-off 'मेरी बच्ची' to Elena, alternating between predatory warmth and razor-sharp disrespect.",
+        rationale: "In Indian dramatic convention, shifting into sarcastic traditional honorifics intensifies the emotional humiliation and personal betrayal."
       },
       {
         area: "Legal & Corporate Terminology",
-        originalApproach: "'Proxy votes are locked' and 'founder's trust'.",
-        adaptedApproach: "Adapted to 'Las acciones fiduciarias están blindadas' (shielded trust shares) and 'fideicomiso fundador'.",
-        rationale: "'Blindadas' resonates strongly in Mexican and Colombian business media as legal protection against hostile takeovers, providing stronger visceral weight than a literal 'bloqueadas'."
+        originalApproach: "'Proxy votes are locked' and 'unbacked bonds'.",
+        adaptedApproach: "Adapted to 'सारे वोटिंग अधिकार मेरे पास सुरक्षित हैं' (all voting rights secured) and 'रद्दी बॉन्ड्स' (junk/worthless bonds).",
+        rationale: "'रद्दी बॉन्ड्स' carries immediate visceral comprehension for Indian viewers, conveying total financial deception far better than technical legal jargon."
       },
       {
-        area: "Emotional Antagonist Slang",
-        originalApproach: "Julian's condescending sign-off: 'Thank you for the signature, sweetheart.'",
-        adaptedApproach: "Adapted to: 'Muchas gracias por tu firma, corazón.' with icy, velvety delivery.",
-        rationale: "Delivers the chilling paternalistic insult without sounding artificial or translated."
+        area: "Dramatic Metaphors",
+        originalApproach: "'My father trusted a viper. I brought anti-venom.'",
+        adaptedApproach: "Adapted to: 'मेरे पिता ने एक आस्तीन के सांप पर भरोसा किया था। मैं उसका जहर काटने का इंतजाम करके आई हूं।'",
+        rationale: "Translates the English 'viper' metaphor into the culturally resonant Hindi idiom 'आस्तीन का सांप' (the traitor within)."
       }
     ],
     reviewFlags: [
       {
         id: "flag-01",
-        originalPhrase: "Tokyo opens in forty seconds, Julian. The proxy votes are locked.",
-        adaptedPhrase: "La bolsa de Tokio abre en cuarenta segundos, Julián. Las acciones fiduciarias están blindadas.",
+        originalPhrase: "Bold speech, Elena. Your father used to give the exact same preamble",
+        adaptedPhrase: "बहुत जोशीला भाषण, एलेना। तुम्हारे पिता भी अपनी जिंदगी की मेहनत सौंपने से पहले ठीक यही डायलॉग बोलते थे।",
         concernType: "register_formality",
-        explanation: "Check whether Julian and Elena should maintain 'tú' (familiar) or 'usted' (formal distance). We chose 'tú' because Julian has known her family for decades, highlighting personal betrayal.",
-        suggestedAlternative: "If higher legal distance is desired by the director: 'Tokio abre en cuarenta segundos, señor Cross. Sus votos fiduciarios han sido revocados.'",
+        explanation: "Check whether Julian should address Elena with 'तुम' (familiar) or 'आप' (formal). We selected 'तुम' because Julian has known her family for decades, highlighting deep personal treachery.",
+        suggestedAlternative: "If corporate board formality is preferred: 'बहुत ही प्रभावशाली भाषण, मिस वेंस। आपके पिता भी अपनी कंपनी सौंपने से पहले यही शब्द दोहराते थे।'",
         status: "pending"
       },
       {
         id: "flag-02",
         originalPhrase: "He sold me that trust for three million dollars in unbacked bonds",
-        adaptedPhrase: "Me vendió ese fideicomiso por tres millones en bonos basura",
+        adaptedPhrase: "उन्होंने वो ट्रस्ट मुझे तीन करोड़ के रद्दी बॉन्ड्स के बदले बेचा था",
         concernType: "idiom",
-        explanation: "'Bonos basura' (junk bonds) is widely understood across Mexican/Argentine/Spanish finance, but 'bonos sin respaldo' would be technically more literal.",
-        suggestedAlternative: "Use 'bonos sin garantía' if local legal compliance guidelines prohibit informal financial colloquialisms.",
+        explanation: "'रद्दी बॉन्ड्स' conveys the fraudulent worthlessness of junk bonds in colloquial Hindi. If regulatory compliance demands literal financial terms, alternative phrasing is recommended.",
+        suggestedAlternative: "'बिना किसी वित्तीय गारंटी वाले बॉन्ड्स' (strictly literal non-guaranteed bonds).",
         status: "pending"
       },
       {
         id: "flag-03",
         originalPhrase: "Thank you for the signature, sweetheart.",
-        adaptedPhrase: "Muchas gracias por tu firma, corazón.",
+        adaptedPhrase: "दस्तखत के लिए बहुत-बहुत शुक्रिया, मेरी बच्ची।",
         concernType: "cultural_sensitivity",
-        explanation: "'Corazón' delivers the patronizing venom of 'sweetheart'. Depending on regional broadcast standards, alternative colloquial diminutives like 'mi reina' or 'preciosa' could tilt into regional slang.",
-        suggestedAlternative: "'Muchas gracias por firmar, querida.' for a more conservative neutral-Spanish broadcast dub.",
+        explanation: "'मेरी बच्ची' delivers the condescending elder-to-younger venom without sounding like an unnatural literal translation of 'sweetheart'. Depending on regional platform standards, verify if the director wants an even colder delivery.",
+        suggestedAlternative: "'हस्ताक्षर के लिए धन्यवाद, बिटिया।' for classic North Indian dramatic cadence.",
         status: "pending"
       }
     ],
     preservationSummary: {
-      plotIntegrity: "100% of the three-beat narrative structure is preserved: the immediate Tokyo market deadline, the reveal of the father's antique pen, and the emergency blackout biometric theft.",
-      emotionalBeats: "The power inversion (Elena dominant -> shocked discovery -> trapped helpless) is fully mirrored in Spanish cadence, with sharper rhythmic interruptions.",
-      characterVoice: "Elena's razor-sharp precision, Julian's venomous aristocratic calm, and Kai's nervous stutter are fully maintained in colloquial Latin American corporate dialogue.",
-      tonePreservation: "Retains high-tension, high-stakes melodrama optimized for 9:16 vertical short-form video retention."
+      plotIntegrity: "The complete 3-beat structure is retained: the immediate Tokyo market countdown, the reveal of the father's antique pen, and the emergency blackout biometric theft.",
+      emotionalBeats: "The power inversion (Elena dominant -> shocked discovery -> trapped helpless) is fully mirrored in Devanagari Hindi cadence with authentic dramatic weight.",
+      characterVoice: "Elena's calculated precision, Julian's icy condescension, and Kai's nervous stammer are preserved in contemporary Indian corporate streaming vernacular.",
+      tonePreservation: "Retains high-tension melodrama tailored for vertical mobile drama viewer retention."
     }
   },
   workflowNotes: {
-    toolsUsed: "Story Studio Engine v1.4, Gemini 2.5 Flash / Demo Provider, Claude Screenplay Formatter, DeepL Localization Benchmarks.",
-    promptRevisions: "v1: Initial prompt produced standard 3-act film pacing with too slow of an opening. v2: Revised system instructions to mandate in media res action within first 4 seconds for vertical micro-drama retention (breaking glass, instant ultimatum). v3: Added strict rule prohibiting literal idiom translation in favor of target-market boardroom culture.",
-    productionObservations: "For vertical 9:16 framing, ensure the camera notes emphasize close-up macro details (the eagle crest on the pen, the glowing biometric tablet) rather than wide room pans. The cliffhanger blackout creates an ideal episode cut point to boost binge-completion rates.",
+    toolsUsed: "Story Studio Engine v1.4, Gemini 2.5 Flash / Demo Provider, Devanagari Screenplay Formatter.",
+    promptRevisions: "v1: English screenplay drafted. v2: Localized into Devanagari Hindi ensuring scene sluglines and character cues remain intact. v3: Formality shifts calibrated to reflect Indian boardroom hierarchies ('आस्तीन का सांप', 'मेरी बच्ची').",
+    productionObservations: "For vertical 9:16 framing, ensure the camera notes emphasize close-up macro details (the eagle crest on the pen, the glowing biometric tablet). Subtitle lines in Devanagari should remain under 38 characters for rapid mobile readability.",
     qaChecklist: {
       hookVerified: true,
       dialoguePacingNatural: true,

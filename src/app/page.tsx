@@ -18,6 +18,7 @@ import { AdaptationEditor } from "@/components/AdaptationEditor";
 import { WorkflowNotesPanel } from "@/components/WorkflowNotesPanel";
 import { ExportModal } from "@/components/ExportModal";
 import { Toast } from "@/components/Toast";
+import { VideoStudio } from "@/components/VideoStudio";
 import {
   Clapperboard,
   Globe,
@@ -56,7 +57,7 @@ const createInitialProject = (): StoryProject => ({
 
 export default function StoryStudioApp() {
   const [project, setProject] = useState<StoryProject>(createInitialProject);
-  const [activeTab, setActiveTab] = useState<"pilot" | "adapt" | "notes" | "export">("pilot");
+  const [activeTab, setActiveTab] = useState<"pilot" | "adapt" | "video" | "notes" | "export">("pilot");
   const [isGeneratingPilot, setIsGeneratingPilot] = useState(false);
   const [isAdapting, setIsAdapting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,12 +66,14 @@ export default function StoryStudioApp() {
   const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [providerInfo, setProviderInfo] = useState<{
-    mode: "gemini" | "openai" | "demo";
+    mode: "ollama" | "demo";
     providerName: string;
     isLive: boolean;
+    model?: string;
+    comfyAvailable?: boolean;
   }>({
     mode: "demo",
-    providerName: "Demo Studio Engine",
+    providerName: "Offline Demo Engine",
     isLive: false
   });
 
@@ -81,9 +84,11 @@ export default function StoryStudioApp() {
       .then((data) => {
         if (data.status === "ok") {
           setProviderInfo({
-            mode: data.mode,
-            providerName: data.providerName,
-            isLive: data.isLive
+            mode: data.scriptBackend?.mode || "demo",
+            providerName: data.scriptBackend?.providerName || "Offline Demo Engine",
+            isLive: Boolean(data.scriptBackend?.isLive),
+            model: data.scriptBackend?.model,
+            comfyAvailable: Boolean(data.videoBackend?.available)
           });
         }
       })
@@ -268,7 +273,7 @@ export default function StoryStudioApp() {
 
         {/* Studio Workflow Navigation */}
         <div className="mb-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 p-1.5 rounded-2xl glass-panel-subtle border border-white/10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 p-1.5 rounded-2xl glass-panel-subtle border border-white/10">
             {/* Step 1: Pilot */}
             <button
               onClick={() => setActiveTab("pilot")}
@@ -315,19 +320,44 @@ export default function StoryStudioApp() {
               </div>
             </button>
 
-            {/* Step 3: Export */}
+            {/* Step 3: Local Video (ComfyUI) */}
+            <button
+              onClick={() => setActiveTab("video")}
+              className={`p-3 rounded-xl flex items-center justify-center sm:justify-start gap-2.5 transition-all text-xs font-semibold ${
+                activeTab === "video"
+                  ? "bg-amber-600 text-white shadow-lg shadow-amber-600/30"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+              }`}
+            >
+              <div className="relative shrink-0">
+                <Film className="w-4 h-4 text-amber-400" />
+                {(project.videoJobs?.length ?? 0) > 0 && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-950" />
+                )}
+              </div>
+              <div className="text-left hidden sm:block">
+                <span className="block leading-none">3. Local Video (ComfyUI)</span>
+                <span className="text-[10px] text-slate-400/90 font-normal">
+                  {(project.videoJobs?.length ?? 0) > 0
+                    ? `${project.videoJobs?.length} Clip${project.videoJobs?.length === 1 ? "" : "s"}`
+                    : "100% Free & Local"}
+                </span>
+              </div>
+            </button>
+
+            {/* Step 4: Export */}
             <button
               onClick={() => setIsExportOpen(true)}
               className="p-3 rounded-xl flex items-center justify-center sm:justify-start gap-2.5 transition-all text-xs font-semibold text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
             >
               <FileText className="w-4 h-4 text-rose-400" />
               <div className="text-left hidden sm:block">
-                <span className="block leading-none">3. Export Package</span>
+                <span className="block leading-none">4. Export Package</span>
                 <span className="text-[10px] text-slate-400 font-normal">Markdown / JSON</span>
               </div>
             </button>
 
-            {/* Step 4: Notes */}
+            {/* Step 5: Notes */}
             <button
               onClick={() => setActiveTab("notes")}
               className={`p-3 rounded-xl flex items-center justify-center sm:justify-start gap-2.5 transition-all text-xs font-semibold ${
@@ -338,7 +368,7 @@ export default function StoryStudioApp() {
             >
               <ClipboardList className="w-4 h-4 text-amber-400" />
               <div className="text-left hidden sm:block">
-                <span className="block leading-none">4. Workflow Notes</span>
+                <span className="block leading-none">5. Workflow Notes</span>
                 <span className="text-[10px] text-slate-400 font-normal">QA & History</span>
               </div>
             </button>
@@ -357,7 +387,7 @@ export default function StoryStudioApp() {
                       premise: project.pilot.synopsis,
                       genre: project.pilot.genre,
                       targetAudience: project.pilot.targetAudience,
-                      sourceLanguage: project.pilot.sourceLanguage,
+                      sourceLanguage: project.pilot.sourceLanguage === "Hindi" ? "Hindi" : "English",
                       episodeDuration: project.pilot.episodeDuration,
                       tone: project.pilot.tone,
                       settingContext: project.pilot.settingContext
@@ -371,6 +401,7 @@ export default function StoryStudioApp() {
                 pilot={project.pilot}
                 onUpdatePilot={(updated) => saveProject({ ...project, pilot: updated })}
                 onSendToAdaptation={handleSendToAdaptation}
+                onSendToVideo={() => setActiveTab("video")}
                 onNotify={showToast}
               />
             ) : (
@@ -400,7 +431,7 @@ export default function StoryStudioApp() {
               isLoading={isAdapting}
               defaultScript={project.pilot?.fullScript || ""}
               defaultTitle={project.pilot?.title || project.title}
-              defaultSourceLang={project.pilot?.sourceLanguage || "English"}
+              defaultSourceLang={project.pilot?.sourceLanguage === "Hindi" ? "Hindi" : "English"}
             />
 
             {project.adaptation ? (
@@ -414,25 +445,30 @@ export default function StoryStudioApp() {
                 <Globe className="w-10 h-10 text-slate-600 mx-auto mb-3" />
                 <h3 className="text-sm font-semibold text-slate-300">No Adaptation Generated Yet</h3>
                 <p className="text-xs text-slate-500 max-w-md mx-auto mt-1 mb-4">
-                  Configure your target territory above to localize dialogue, preserve dramatic intent, and flag cultural idioms for human review.
+                  Configure your target language (English or Hindi) above to localize dialogue, preserve dramatic intent, and flag cultural idioms for human review.
                 </p>
                 {project.pilot && (
                   <button
-                    onClick={() =>
+                    onClick={() => {
+                      const src = project.pilot!.sourceLanguage === "Hindi" ? "Hindi" : "English";
+                      const tgt = src === "Hindi" ? "English" : "Hindi";
                       handleAdaptStory({
                         scriptToAdapt: project.pilot!.fullScript,
                         storyTitle: project.pilot!.title,
-                        sourceLanguage: project.pilot!.sourceLanguage,
-                        targetLanguage: "Spanish (Latin America)",
-                        audienceRegion: "Latin American OTT & Vertical Short-Form (Mexico / Colombia)",
+                        sourceLanguage: src,
+                        targetLanguage: tgt,
+                        audienceRegion:
+                          tgt === "Hindi"
+                            ? "Indian OTT & Vertical Short-Form (Tier-1 / Tier-2 Streaming)"
+                            : "Global English OTT & Vertical Short-Form",
                         adaptationStyle: "locally_adapted"
-                      })
-                    }
+                      });
+                    }}
                     disabled={isAdapting}
                     className="px-4 py-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 text-purple-300 text-xs font-medium inline-flex items-center gap-1.5"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>Quick Adapt Pilot to Spanish</span>
+                    <span>Quick Adapt Pilot to {project.pilot?.sourceLanguage === "Hindi" ? "English" : "Hindi (Devanagari)"}</span>
                   </button>
                 )}
               </div>
@@ -440,7 +476,17 @@ export default function StoryStudioApp() {
           </div>
         )}
 
-        {/* WORKFLOW TAB 4: WORKFLOW & QA NOTES */}
+        {/* WORKFLOW TAB 3: AI VIDEO GENERATION (GOOGLE VEO) */}
+        {activeTab === "video" && (
+          <VideoStudio
+            pilot={project.pilot}
+            videoJobs={project.videoJobs || []}
+            onUpdateVideoJobs={(jobs) => saveProject({ ...project, videoJobs: jobs })}
+            onNotify={showToast}
+          />
+        )}
+
+        {/* WORKFLOW TAB 5: WORKFLOW & QA NOTES */}
         {activeTab === "notes" && (
           <WorkflowNotesPanel
             notes={project.workflowNotes}
@@ -459,7 +505,7 @@ export default function StoryStudioApp() {
               Produces screenplays, scene breakdowns, retention architecture, and human-in-the-loop localization reviews.
             </p>
             <p className="text-[10px] text-slate-600 mt-1">
-              Note: This application generates production-ready creative scripts and text assets; it does not synthesize video or voiceover.
+              Note: 100% Free & Local-First. Script generation runs locally via Ollama (or offline demo sample mode). Video generation runs locally via ComfyUI (open-source models like LTX-Video / Wan2.1). Zero paid APIs, keys, or cloud billing required.
             </p>
           </div>
 

@@ -59,6 +59,8 @@ export interface MicroDramaPilot {
   fullScript: string;
   scenes: Scene[];
   promotionalReel: PromotionalReel;
+  isDemoSample?: boolean;
+  generatorModel?: string;
 }
 
 export type ReviewFlagStatus = "pending" | "approved" | "edited";
@@ -100,6 +102,8 @@ export interface StoryAdaptation {
   localizationChoices: LocalizationChoice[];
   reviewFlags: ReviewFlag[];
   preservationSummary: PreservationSummary;
+  isDemoSample?: boolean;
+  generatorModel?: string;
 }
 
 export interface QAChecklist {
@@ -117,20 +121,55 @@ export interface WorkflowNotes {
   qaChecklist: QAChecklist;
 }
 
+export type VideoJobStatus = "idle" | "submitting" | "processing" | "completed" | "failed";
+
+export interface VideoPromptSettings {
+  sceneNumber: number;
+  sceneHeading: string;
+  prompt: string;
+  aspectRatio: "9:16" | "16:9";
+  durationSeconds: 4 | 8;
+  resolution: "720p" | "1080p";
+  workflow?: string;
+}
+
+export interface VideoGenerationJob {
+  id: string;
+  promptId?: string;
+  sceneNumber: number;
+  sceneHeading: string;
+  prompt: string;
+  aspectRatio: "9:16" | "16:9";
+  durationSeconds: 4 | 8;
+  resolution: "720p" | "1080p";
+  status: VideoJobStatus;
+  videoUrl?: string;
+  localFilename?: string;
+  backend: "comfyui" | "demo";
+  workflowName?: string;
+  error?: string;
+  createdAt: string;
+  completedAt?: string;
+  isDemoSample?: boolean;
+}
+
 export interface StoryProject {
   id: string;
   title: string;
   lastModified: string;
   pilot: MicroDramaPilot | null;
   adaptation: StoryAdaptation | null;
+  videoJobs?: VideoGenerationJob[];
   workflowNotes: WorkflowNotes;
 }
+
+export type SupportedLanguage = "Hindi" | "English";
 
 export interface PilotGenerationParams {
   premise: string;
   genre: string;
   targetAudience: string;
-  sourceLanguage: string;
+  sourceLanguage: SupportedLanguage;
   episodeDuration: "1 min" | "3 min" | "5 min";
   tone: string;
   settingContext?: string;
@@ -139,8 +178,8 @@ export interface PilotGenerationParams {
 export interface AdaptationParams {
   scriptToAdapt: string;
   storyTitle?: string;
-  sourceLanguage: string;
-  targetLanguage: string;
+  sourceLanguage: SupportedLanguage;
+  targetLanguage: SupportedLanguage;
   audienceRegion?: string;
   adaptationStyle: "faithful" | "conversational" | "locally_adapted";
 }

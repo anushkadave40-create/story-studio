@@ -16,17 +16,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const normalizedLang = (sourceLanguage || "English").trim();
+    if (normalizedLang !== "Hindi" && normalizedLang !== "English") {
+      return NextResponse.json(
+        { error: "Unsupported language. Story Studio currently supports only 'Hindi' and 'English'." },
+        { status: 400 }
+      );
+    }
+
     const params: PilotGenerationParams = {
       premise: premise.trim(),
       genre: (genre || "Corporate Revenge Melodrama").trim(),
       targetAudience: (targetAudience || "Vertical short-form drama viewers").trim(),
-      sourceLanguage: (sourceLanguage || "English").trim(),
+      sourceLanguage: normalizedLang as "Hindi" | "English",
       episodeDuration: episodeDuration === "1 min" || episodeDuration === "5 min" ? episodeDuration : "3 min",
       tone: (tone || "High Tension & Razor-Sharp Betrayal").trim(),
       settingContext: settingContext?.trim() || undefined
     };
 
-    const { provider, mode } = getAIProvider();
+    const { provider, mode } = await getAIProvider();
 
     try {
       const pilot = await provider.generatePilot(params);

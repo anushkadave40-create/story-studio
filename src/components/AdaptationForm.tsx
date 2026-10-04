@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Globe,
   Languages,
@@ -8,9 +8,10 @@ import {
   ArrowRight,
   HelpCircle,
   FileCheck,
-  ClipboardPaste
+  ClipboardPaste,
+  ArrowLeftRight
 } from "lucide-react";
-import { AdaptationParams } from "@/types/story";
+import { AdaptationParams, SupportedLanguage } from "@/types/story";
 import { LANGUAGE_OPTIONS, ADAPTATION_STYLES } from "@/data/presets";
 
 interface AdaptationFormProps {
@@ -18,7 +19,7 @@ interface AdaptationFormProps {
   isLoading: boolean;
   defaultScript: string;
   defaultTitle: string;
-  defaultSourceLang: string;
+  defaultSourceLang: SupportedLanguage;
 }
 
 export const AdaptationForm: React.FC<AdaptationFormProps> = ({
@@ -30,12 +31,68 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
 }) => {
   const [scriptToAdapt, setScriptToAdapt] = useState(defaultScript);
   const [storyTitle, setStoryTitle] = useState(defaultTitle || "The Glass Boardroom");
-  const [sourceLanguage, setSourceLanguage] = useState(defaultSourceLang || "English");
-  const [targetLanguage, setTargetLanguage] = useState("Spanish (Latin America)");
-  const [audienceRegion, setAudienceRegion] = useState("Latin American OTT & Vertical Short-Form (Mexico / Colombia)");
+  const [sourceLanguage, setSourceLanguage] = useState<SupportedLanguage>(
+    defaultSourceLang === "Hindi" ? "Hindi" : "English"
+  );
+  const [targetLanguage, setTargetLanguage] = useState<SupportedLanguage>(
+    defaultSourceLang === "Hindi" ? "English" : "Hindi"
+  );
+  const [audienceRegion, setAudienceRegion] = useState(
+    defaultSourceLang === "Hindi"
+      ? "Global English OTT & Vertical Short-Form"
+      : "Indian OTT & Vertical Short-Form (Tier-1 / Tier-2 Streaming)"
+  );
   const [adaptationStyle, setAdaptationStyle] = useState<"faithful" | "conversational" | "locally_adapted">(
     "locally_adapted"
   );
+
+  // Update if parent source language changes
+  useEffect(() => {
+    if (defaultSourceLang) {
+      setSourceLanguage(defaultSourceLang);
+      const newTarget: SupportedLanguage = defaultSourceLang === "Hindi" ? "English" : "Hindi";
+      setTargetLanguage(newTarget);
+      setAudienceRegion(
+        newTarget === "Hindi"
+          ? "Indian OTT & Vertical Short-Form (Tier-1 / Tier-2 Streaming)"
+          : "Global English OTT & Vertical Short-Form"
+      );
+    }
+  }, [defaultSourceLang]);
+
+  const handleSourceChange = (newSource: SupportedLanguage) => {
+    setSourceLanguage(newSource);
+    const newTarget: SupportedLanguage = newSource === "Hindi" ? "English" : "Hindi";
+    setTargetLanguage(newTarget);
+    setAudienceRegion(
+      newTarget === "Hindi"
+        ? "Indian OTT & Vertical Short-Form (Tier-1 / Tier-2 Streaming)"
+        : "Global English OTT & Vertical Short-Form"
+    );
+  };
+
+  const handleTargetChange = (newTarget: SupportedLanguage) => {
+    setTargetLanguage(newTarget);
+    const newSource: SupportedLanguage = newTarget === "Hindi" ? "English" : "Hindi";
+    setSourceLanguage(newSource);
+    setAudienceRegion(
+      newTarget === "Hindi"
+        ? "Indian OTT & Vertical Short-Form (Tier-1 / Tier-2 Streaming)"
+        : "Global English OTT & Vertical Short-Form"
+    );
+  };
+
+  const handleSwapLanguages = () => {
+    const nextSource = targetLanguage;
+    const nextTarget = sourceLanguage;
+    setSourceLanguage(nextSource);
+    setTargetLanguage(nextTarget);
+    setAudienceRegion(
+      nextTarget === "Hindi"
+        ? "Indian OTT & Vertical Short-Form (Tier-1 / Tier-2 Streaming)"
+        : "Global English OTT & Vertical Short-Form"
+    );
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +112,7 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
     if (defaultScript) {
       setScriptToAdapt(defaultScript);
       if (defaultTitle) setStoryTitle(defaultTitle);
-      if (defaultSourceLang) setSourceLanguage(defaultSourceLang);
+      if (defaultSourceLang) handleSourceChange(defaultSourceLang);
     }
   };
 
@@ -65,10 +122,10 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
             <Languages className="w-5 h-5 text-indigo-400" />
-            <span>Multilingual Cultural Adaptation</span>
+            <span>Bilingual Story Adaptation (Hindi ↔ English)</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Transcode your micro-drama into global territories without literal machine translation. Preserves dramatic subtext, character stakes, and flags uncertain idioms for human review.
+            Transcode your micro-drama between English and Hindi (Devanagari) without literal machine translation. Preserves dramatic subtext, character intentions, and flags cultural idioms for human review.
           </p>
         </div>
 
@@ -87,8 +144,8 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Story Title & Script Source */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+          <div className="md:col-span-4">
             <label htmlFor="storyTitle" className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
               Story / Project Title
             </label>
@@ -102,14 +159,14 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
             />
           </div>
 
-          <div>
+          <div className="md:col-span-3">
             <label htmlFor="sourceLang" className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
               Source Language
             </label>
             <select
               id="sourceLang"
               value={sourceLanguage}
-              onChange={(e) => setSourceLanguage(e.target.value)}
+              onChange={(e) => handleSourceChange(e.target.value as SupportedLanguage)}
               className="w-full rounded-xl bg-slate-900/90 border border-slate-700 focus:border-indigo-500 text-white p-3 text-sm transition-all"
             >
               {LANGUAGE_OPTIONS.map((l) => (
@@ -120,14 +177,27 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
             </select>
           </div>
 
-          <div>
+          {/* Language Swap Button */}
+          <div className="md:col-span-2 flex justify-center pb-1">
+            <button
+              type="button"
+              onClick={handleSwapLanguages}
+              className="w-full py-2.5 px-3 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/30 text-indigo-300 text-xs font-medium flex items-center justify-center gap-1.5 transition-all shadow-sm"
+              title="Swap languages (English ↔ Hindi)"
+            >
+              <ArrowLeftRight className="w-3.5 h-3.5" />
+              <span>Swap</span>
+            </button>
+          </div>
+
+          <div className="md:col-span-3">
             <label htmlFor="targetLang" className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
               Target Language
             </label>
             <select
               id="targetLang"
               value={targetLanguage}
-              onChange={(e) => setTargetLanguage(e.target.value)}
+              onChange={(e) => handleTargetChange(e.target.value as SupportedLanguage)}
               className="w-full rounded-xl bg-slate-900/90 border border-slate-700 focus:border-indigo-500 text-white p-3 text-sm transition-all"
             >
               {LANGUAGE_OPTIONS.map((l) => (
@@ -149,7 +219,7 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
             id="audienceRegion"
             value={audienceRegion}
             onChange={(e) => setAudienceRegion(e.target.value)}
-            placeholder="e.g. Latin American OTT & Vertical Short-Form (Mexico / Colombia / US Hispanic)"
+            placeholder="e.g. Indian OTT & Vertical Short-Form (Tier-1 / Tier-2 Streaming)"
             className="w-full rounded-xl bg-slate-900/90 border border-slate-700 focus:border-indigo-500 text-white p-3 text-sm transition-all"
           />
         </div>
@@ -190,11 +260,11 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
         <div>
           <div className="flex items-center justify-between mb-2">
             <label htmlFor="scriptText" className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-              <span>Script to Adapt</span>
+              <span>Script to Adapt ({sourceLanguage})</span>
               <span className="text-rose-400">*</span>
             </label>
             <span className="text-[11px] text-slate-500">
-              Preserves scene numbers, characters & emotional inflection
+              Adapts into {targetLanguage} {targetLanguage === "Hindi" ? "(in Devanagari script)" : ""}
             </span>
           </div>
 
@@ -223,12 +293,12 @@ export const AdaptationForm: React.FC<AdaptationFormProps> = ({
             {isLoading ? (
               <>
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>Localizing Dialogue & Generating Review Flags...</span>
+                <span>Adapting {sourceLanguage} → {targetLanguage} & Flagging Idioms...</span>
               </>
             ) : (
               <>
                 <Globe className="w-4 h-4 text-purple-300" />
-                <span>Perform Multilingual Adaptation & Review Generation</span>
+                <span>Adapt {sourceLanguage} → {targetLanguage} ({targetLanguage === "Hindi" ? "Devanagari" : "English"})</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </>
             )}

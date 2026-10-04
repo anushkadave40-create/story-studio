@@ -11,7 +11,7 @@ import {
   ArrowRight,
   Lightbulb
 } from "lucide-react";
-import { PilotGenerationParams } from "@/types/story";
+import { PilotGenerationParams, SupportedLanguage } from "@/types/story";
 import {
   GENRE_PRESETS,
   TONE_PRESETS,
@@ -36,7 +36,9 @@ export const PilotForm: React.FC<PilotFormProps> = ({
   const [targetAudience, setTargetAudience] = useState(
     initialParams?.targetAudience || "Young urban professionals & vertical micro-drama viewers (Ages 20-35)"
   );
-  const [sourceLanguage, setSourceLanguage] = useState(initialParams?.sourceLanguage || "English");
+  const [sourceLanguage, setSourceLanguage] = useState<SupportedLanguage>(
+    initialParams?.sourceLanguage === "Hindi" ? "Hindi" : "English"
+  );
   const [episodeDuration, setEpisodeDuration] = useState<"1 min" | "3 min" | "5 min">(
     initialParams?.episodeDuration || "3 min"
   );
@@ -219,7 +221,7 @@ export const PilotForm: React.FC<PilotFormProps> = ({
             <select
               id="sourceLanguage"
               value={sourceLanguage}
-              onChange={(e) => setSourceLanguage(e.target.value)}
+              onChange={(e) => setSourceLanguage(e.target.value as SupportedLanguage)}
               className="w-full rounded-xl bg-slate-900/90 border border-slate-700 focus:border-indigo-500 text-white p-3 text-sm transition-all"
             >
               {LANGUAGE_OPTIONS.map((l) => (
